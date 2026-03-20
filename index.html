@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0046)file:///C:/Users/markv/Downloads/reviewer.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Reviewer</title>
-<link href="./Reviewer3_files/css2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -332,14 +332,14 @@
 <header>
   <div class="logo">Flash<span>.</span>Rev</div>
   <div class="header-right">
-    <span class="pill" id="totalPill">61 cards</span>
+    <span class="pill" id="totalPill">0 cards</span>
   </div>
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab(&#39;add&#39;)">＋ Add Cards</button>
-  <button class="tab" onclick="switchTab(&#39;list&#39;)">My Cards</button>
-  <button class="tab" onclick="switchTab(&#39;review&#39;)">Review</button>
+  <button class="tab active" onclick="switchTab('add')">＋ Add Cards</button>
+  <button class="tab" onclick="switchTab('list')">My Cards</button>
+  <button class="tab" onclick="switchTab('review')">Review</button>
 </div>
 
 <main>
@@ -356,621 +356,21 @@
       <textarea id="inputA" placeholder="e.g. The mitochondria"></textarea>
     </div>
     <button class="btn btn-primary" onclick="addCard()">Add Card</button>
-    <span id="addFeedback" style="margin-left: 14px; font-size: 0.82rem; color: var(--green); opacity: 0; transition: opacity 0.3s;">Saved!</span>
+    <span id="addFeedback" style="margin-left:14px;font-size:.82rem;color:var(--green);opacity:0;transition:opacity .3s;">Saved!</span>
   </div>
 
   <!-- LIST PANEL -->
   <div class="panel" id="panel-list">
     <div class="cards-header">
       <div class="section-label" style="margin:0;">All Cards</div>
-      <span class="count-badge" id="listCount">61</span>
+      <span class="count-badge" id="listCount">0</span>
     </div>
     <div class="card-list" id="cardList">
-    <div class="card-item">
-      <span class="card-num">1</span>
-      <div class="card-item-body">
-        <div class="card-q">is the process of identifying and rectifying errors in a program that leads to unexpected behavior.
-It is a critical component in programming that represents the most time-intensive and challenging phase of
-coding.</div>
-        <div class="card-a">Debugging</div>
+      <div class="empty-state">
+        <div class="empty-icon">📭</div>
+        No cards yet. Add some from the <b>Add Cards</b> tab.
       </div>
-      <button class="btn btn-danger" onclick="deleteCard(0)">Delete</button>
     </div>
-  
-    <div class="card-item">
-      <span class="card-num">2</span>
-      <div class="card-item-body">
-        <div class="card-q">It is vital to fully understand the problem being solved before making
-changes to the code. Without it, time will just be wasted, and solutions can be ineffective. It is
-advisable to reproduce the issue and gather as much information as possible.</div>
-        <div class="card-a">Understanding the Problem</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(1)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">3</span>
-      <div class="card-item-body">
-        <div class="card-q">his is also called backward debugging where it starts from the point the problem first
-began and works backward through the code to find out how and why it happened. This technique is
-useful when dealing with complex issues that are difficult to trace forward.</div>
-        <div class="card-a">Backtracking</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(2)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">4</span>
-      <div class="card-item-body">
-        <div class="card-q">Tools for debugging can help give valuable insights into how the code functions,
-including variables and memory usage, that help save time. Examples include Chrome DevTools,
-Testsigma, and dbForger.</div>
-        <div class="card-a">Debugging Tools</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(3)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">5</span>
-      <div class="card-item-body">
-        <div class="card-q">Setting breakpoints in the code where the issue might be hiding is a good
-practice. A breakpoint is the point in the code to temporarily stop the execution of the program to
-inspect the state of its functionality.</div>
-        <div class="card-a">Breakpoints and Stepping</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(4)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">6</span>
-      <div class="card-item-body">
-        <div class="card-q">It is advisable to narrow the scope of the issues into manageable portions when faced
-with a complex problem. where the code is divided into
-halves and systematically narrowing the bug location. Commenting out code, using print statements,
-or isolating components can help isolate the problem area quickly.</div>
-        <div class="card-a">Binary Search</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(5)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">7</span>
-      <div class="card-item-body">
-        <div class="card-q">This is an analogy for explaining an object like a rubber duck to someone else to
-identify the issue. Articulating the problem out loud or written down forces critical thinking that can
-lead to discoveries of new insights and solutions.</div>
-        <div class="card-a">Rubber Ducking</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(6)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">8</span>
-      <div class="card-item-body">
-        <div class="card-q">It is statements in strategic areas of the code is a good idea to provide
-valuable information for debugging. Understanding the code’s execution flow and the values of
-variables at different stages allows the debugger to identify the issue.</div>
-        <div class="card-a">Log Analysis</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(7)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">9</span>
-      <div class="card-item-body">
-        <div class="card-q">Group error reports into classes of related bugs as they often share common causes
-or patterns. Fixing a bug from a class is likely to resolve other bugs or give insights into how to fix
-them.</div>
-        <div class="card-a">Clustering Bugs</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(8)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">10</span>
-      <div class="card-item-body">
-        <div class="card-q">Debugging can be mentally taxing after hours of trying to resolve them. It is advisable
-to take breaks and step away from the code to clear the mind and allow the thoughts and ideas to
-summer, leading to breakthroughs based on a fresh perspective.</div>
-        <div class="card-a">Take Breaks</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(9)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">11</span>
-      <div class="card-item-body">
-        <div class="card-q">Documenting the process and the solutions you used is an important technique, as it
-can be a valuable resource for future debugging challenges.</div>
-        <div class="card-a">Take Notes</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(10)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">12</span>
-      <div class="card-item-body">
-        <div class="card-q">It is an unexpected or error condition encountered in programming.</div>
-        <div class="card-a">exception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(11)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">13</span>
-      <div class="card-item-body">
-        <div class="card-q">refers to the object-oriented techniques that manage or resolve such errors.</div>
-        <div class="card-a">Exception handling</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(12)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">14</span>
-      <div class="card-item-body">
-        <div class="card-q">If an
-unplanned exception occurs during a program’s execution, it is called</div>
-        <div class="card-a">runtime error</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(13)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">15</span>
-      <div class="card-item-body">
-        <div class="card-q">otherwise, if
-discovered during program compilation, it is called</div>
-        <div class="card-a">syntax error</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(14)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">16</span>
-      <div class="card-item-body">
-        <div class="card-q">represents more serious errors that a program usually might not recover from. For
-instance, an insufficient memory to execute a program.</div>
-        <div class="card-a">Error Class</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(15)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">17</span>
-      <div class="card-item-body">
-        <div class="card-q">represents less serious errors that indicate unusual conditions that arise while a
-program is running and from which the program can recover</div>
-        <div class="card-a">Exception Class</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(16)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">18</span>
-      <div class="card-item-body">
-        <div class="card-q">the base class for exceptions thrown while accessing data from files, directories, and
-streams.</div>
-        <div class="card-a">ioexception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(17)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">19</span>
-      <div class="card-item-body">
-        <div class="card-q">only detected during the execution of the application</div>
-        <div class="card-a">runtime exception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(18)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">20</span>
-      <div class="card-item-body">
-        <div class="card-q">raised whenever a wrong mathematical operation appears in the code
-during runtime.</div>
-        <div class="card-a">arithmethic exception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(19)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">21</span>
-      <div class="card-item-body">
-        <div class="card-q">thrown when an index used in arrays, lists, or strings is invalid</div>
-        <div class="card-a">indexoutofboundsexception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(20)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">22</span>
-      <div class="card-item-body">
-        <div class="card-q">indicates that an array has been accessed with an illegal
-index, either negative or greater than or equal to the size of the array.</div>
-        <div class="card-a">arrayindexoutofboundsexception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(21)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">23</span>
-      <div class="card-item-body">
-        <div class="card-q">indicates that the element being requested does not exist.</div>
-        <div class="card-a">nosuchelementsexception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(22)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">24</span>
-      <div class="card-item-body">
-        <div class="card-q">occurs when the user does not provide the proper type of input or
-input is out of range.</div>
-        <div class="card-a">inputmismatchexception</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(23)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">25</span>
-      <div class="card-item-body">
-        <div class="card-q">indicates that the Java Virtual Machine is broken or has run out of
-resources necessary for it to continue operating.</div>
-        <div class="card-a">virtualmachineerror</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(24)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">26</span>
-      <div class="card-item-body">
-        <div class="card-q">thrown when there is insufficient space to allocate an object.</div>
-        <div class="card-a">outofmemoryerror</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(25)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">27</span>
-      <div class="card-item-body">
-        <div class="card-q">indicates unexpected internal error has occurred in the Java Virtual Machine.</div>
-        <div class="card-a">internalerror</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(26)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">28</span>
-      <div class="card-item-body">
-        <div class="card-q">This is placed when a programmer creates a segment of code in which something might go wrong. It is the
-block of code a programmer might attempt to execute while acknowledging that an exception might occur.</div>
-        <div class="card-a">try block</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(27)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">29</span>
-      <div class="card-item-body">
-        <div class="card-q">To handle a thrown exception, one or more catch blocks can be added following a try block. A catch block
-is a segment of code that handles an exception that might be thrown by the try block that precedes it.</div>
-        <div class="card-a">catch block</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(28)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">30</span>
-      <div class="card-item-body">
-        <div class="card-q">It sends an Exception object out of a block or method so it can be handled elsewhere. A
-thrown Exception can be caught by a catch block.</div>
-        <div class="card-a">throw statement</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(29)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">31</span>
-      <div class="card-item-body">
-        <div class="card-q">When actions must be performed at the end of a try… catch sequence, a finally block is used. The code
-written in the finally block executes whether or not the preceding try block identifies an Exception</div>
-        <div class="card-a">finally block</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(30)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">32</span>
-      <div class="card-item-body">
-        <div class="card-q">The list of error messages, which shows each method called as the program ran after each attempted
-execution</div>
-        <div class="card-a">stack trace</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(31)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">33</span>
-      <div class="card-item-body">
-        <div class="card-q">is a collection of data stored on a nonvolatile device or a permanent storage device such as a
-hard disk, universal serial bus (USB) drive, compact disk, and reel or cassette of magnetic tape.</div>
-        <div class="card-a">computer file</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(32)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">34</span>
-      <div class="card-item-body">
-        <div class="card-q">contain data that can be read in a text editor as the data is encoded using a scheme (ASCII
-or Unicode). These can be data files that contain facts and figures, including a payroll file with
-employee numbers, names, and salaries.</div>
-        <div class="card-a">Text files</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(33)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">35</span>
-      <div class="card-item-body">
-        <div class="card-q">contain data items that have not been encoded as text. A binary file’s contents are in
-binary format (0s and 1s), which is not easily understood by viewing them in a text editor.</div>
-        <div class="card-a">Binary files</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(34)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">36</span>
-      <div class="card-item-body">
-        <div class="card-q">or main directory of the storage device can be used to store a permanent file. For better
-organization, most computer users organize their files by placing each into a folder or directory.</div>
-        <div class="card-a">root directory</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(35)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">37</span>
-      <div class="card-item-body">
-        <div class="card-q">A complete list of the disk drive and the hierarchy of
-directories in which a file resides</div>
-        <div class="card-a">path.</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(36)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">38</span>
-      <div class="card-item-body">
-        <div class="card-q">It separates the path components. A slash (/) is used as the delimiter in the Solaris
-(UNIX) operating system.</div>
-        <div class="card-a">path identifier</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(37)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">39</span>
-      <div class="card-item-body">
-        <div class="card-q">is a complete path that does not need any information to locate a file on a system. For
-example, C:\\Java\\Chapter.11\\SampleFile.txt is an absolute path.</div>
-        <div class="card-a">absolute path</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(38)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">40</span>
-      <div class="card-item-body">
-        <div class="card-q">depends on other path information. For example, a simple path such as SampleFile.txt is
-relative. When working with a path containing only a filename, the file is assumed to be in the same folder as
-the program using it.</div>
-        <div class="card-a">relative path</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(39)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">41</span>
-      <div class="card-item-body">
-        <div class="card-q">Returns the String representation of the path, eliminating double backslashes.</div>
-        <div class="card-a">String toString</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(40)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">42</span>
-      <div class="card-item-body">
-        <div class="card-q">Returns the file or directory denoted by this Path; the last item in the sequence of
-name elements.</div>
-        <div class="card-a">path getfilename</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(41)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">43</span>
-      <div class="card-item-body">
-        <div class="card-q">Returns the number of name elements in the Path</div>
-        <div class="card-a">int getnamecount</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(42)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">44</span>
-      <div class="card-item-body">
-        <div class="card-q">Returns the name in the position of the Path specified by the integer parameter</div>
-        <div class="card-a">path getname</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(43)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">45</span>
-      <div class="card-item-body">
-        <div class="card-q">checks that the file exists. As an alternative to using checkAccess() with no
-argument to determine whether a file exists, the Files.exists() method can be used as a
-substitute and pass it a Path argument.</div>
-        <div class="card-a">no argument</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(44)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">46</span>
-      <div class="card-item-body">
-        <div class="card-q">checks that the file exists and the program has permission to read the file</div>
-        <div class="card-a">read</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(45)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">47</span>
-      <div class="card-item-body">
-        <div class="card-q">checks that the file exists and the program has permission to write to the file</div>
-        <div class="card-a">write</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(46)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">48</span>
-      <div class="card-item-body">
-        <div class="card-q">checks that the file exists and the program has permission to execute the file</div>
-        <div class="card-a">execute</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(47)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">49</span>
-      <div class="card-item-body">
-        <div class="card-q">An abstract class that contains methods for performing input</div>
-        <div class="card-a">inputstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(48)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">50</span>
-      <div class="card-item-body">
-        <div class="card-q">Child of InputStream that provides the capability to read from disk files</div>
-        <div class="card-a">fileinputstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(49)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">51</span>
-      <div class="card-item-body">
-        <div class="card-q">Child of FilterInputStream that handles input from a system’s standard (or
-default) input device, usually the keyboard</div>
-        <div class="card-a">bufferedinputstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(50)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">52</span>
-      <div class="card-item-body">
-        <div class="card-q">An abstract class that contains methods for performing output</div>
-        <div class="card-a">outputstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(51)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">53</span>
-      <div class="card-item-body">
-        <div class="card-q">Child of OutputStream that allows writing to disk files</div>
-        <div class="card-a">fileoutputstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(52)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">54</span>
-      <div class="card-item-body">
-        <div class="card-q">Child of FilterOutputStream that handles output from a system’s standard
-(or default) output device, usually the monitor</div>
-        <div class="card-a">bufferedoutputstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(53)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">55</span>
-      <div class="card-item-body">
-        <div class="card-q">Child of FilterOutputStream. Java’s System class contains a PrintStream
-object named System.out</div>
-        <div class="card-a">printstream</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(54)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">56</span>
-      <div class="card-item-body">
-        <div class="card-q">Abstract class for reading character streams; the only methods that a subclass
-must implement are read(char[], int, int) and close()</div>
-        <div class="card-a">reader</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(55)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">57</span>
-      <div class="card-item-body">
-        <div class="card-q">Reads text from a character-input stream, buffering characters to provide for
-efficient reading of characters, arrays, and lines</div>
-        <div class="card-a">bufferedreader</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(56)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">58</span>
-      <div class="card-item-body">
-        <div class="card-q">Writes text to a character-output stream, buffering characters to provide for
-the efficient writing of characters, arrays, and lines</div>
-        <div class="card-a">bufferedwriter</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(57)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">59</span>
-      <div class="card-item-body">
-        <div class="card-q">Closes the output stream and releases any system resources associated with
-the stream</div>
-        <div class="card-a">void close</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(58)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">60</span>
-      <div class="card-item-body">
-        <div class="card-q">Flushes the output stream; if any bytes are buffered, they will be written</div>
-        <div class="card-a">void flush</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(59)">Delete</button>
-    </div>
-  
-    <div class="card-item">
-      <span class="card-num">61</span>
-      <div class="card-item-body">
-        <div class="card-q">Writes all the bytes to the output stream from the specified byte array</div>
-        <div class="card-a">void write</div>
-      </div>
-      <button class="btn btn-danger" onclick="deleteCard(60)">Delete</button>
-    </div>
-  </div>
   </div>
 
   <!-- REVIEW PANEL -->
@@ -980,7 +380,7 @@ the stream</div>
       <p style="color:var(--muted);font-size:.9rem;margin-bottom:20px;">Type your answer and hit Submit. You'll see the correct answer and whether you got it right.</p>
       <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px;">
         <div class="toggle-wrap">
-          <input type="checkbox" class="toggle" id="shuffleToggle" checked="">
+          <input type="checkbox" class="toggle" id="shuffleToggle" checked>
           <label for="shuffleToggle">Shuffle cards</label>
         </div>
       </div>
@@ -1036,13 +436,80 @@ the stream</div>
 </main>
 
 <script>
-let cards = JSON.parse(localStorage.getItem('flashcards') || '[]');
+const DEFAULT_CARDS = [
+  {q:"is the process of identifying and rectifying errors in a program that leads to unexpected behavior. It is a critical component in programming that represents the most time-intensive and challenging phase of coding.",a:"Debugging"},
+  {q:"It is vital to fully understand the problem being solved before making changes to the code. Without it, time will just be wasted, and solutions can be ineffective. It is advisable to reproduce the issue and gather as much information as possible.",a:"Understanding the Problem"},
+  {q:"This is also called backward debugging where it starts from the point the problem first began and works backward through the code to find out how and why it happened. This technique is useful when dealing with complex issues that are difficult to trace forward.",a:"Backtracking"},
+  {q:"Tools for debugging can help give valuable insights into how the code functions, including variables and memory usage, that help save time. Examples include Chrome DevTools, Testsigma, and dbForger.",a:"Debugging Tools"},
+  {q:"Setting breakpoints in the code where the issue might be hiding is a good practice. A breakpoint is the point in the code to temporarily stop the execution of the program to inspect the state of its functionality.",a:"Breakpoints and Stepping"},
+  {q:"It is advisable to narrow the scope of the issues into manageable portions when faced with a complex problem. where the code is divided into halves and systematically narrowing the bug location. Commenting out code, using print statements, or isolating components can help isolate the problem area quickly.",a:"Binary Search"},
+  {q:"This is an analogy for explaining an object like a rubber duck to someone else to identify the issue. Articulating the problem out loud or written down forces critical thinking that can lead to discoveries of new insights and solutions.",a:"Rubber Ducking"},
+  {q:"It is statements in strategic areas of the code is a good idea to provide valuable information for debugging. Understanding the code's execution flow and the values of variables at different stages allows the debugger to identify the issue.",a:"Log Analysis"},
+  {q:"Group error reports into classes of related bugs as they often share common causes or patterns. Fixing a bug from a class is likely to resolve other bugs or give insights into how to fix them.",a:"Clustering Bugs"},
+  {q:"Debugging can be mentally taxing after hours of trying to resolve them. It is advisable to take breaks and step away from the code to clear the mind and allow the thoughts and ideas to simmer, leading to breakthroughs based on a fresh perspective.",a:"Take Breaks"},
+  {q:"Documenting the process and the solutions you used is an important technique, as it can be a valuable resource for future debugging challenges.",a:"Take Notes"},
+  {q:"It is an unexpected or error condition encountered in programming.",a:"exception"},
+  {q:"refers to the object-oriented techniques that manage or resolve such errors.",a:"Exception handling"},
+  {q:"If an unplanned exception occurs during a program's execution, it is called",a:"runtime error"},
+  {q:"otherwise, if discovered during program compilation, it is called",a:"syntax error"},
+  {q:"represents more serious errors that a program usually might not recover from. For instance, an insufficient memory to execute a program.",a:"Error Class"},
+  {q:"represents less serious errors that indicate unusual conditions that arise while a program is running and from which the program can recover",a:"Exception Class"},
+  {q:"the base class for exceptions thrown while accessing data from files, directories, and streams.",a:"ioexception"},
+  {q:"only detected during the execution of the application",a:"runtime exception"},
+  {q:"raised whenever a wrong mathematical operation appears in the code during runtime.",a:"arithmethic exception"},
+  {q:"thrown when an index used in arrays, lists, or strings is invalid",a:"indexoutofboundsexception"},
+  {q:"indicates that an array has been accessed with an illegal index, either negative or greater than or equal to the size of the array.",a:"arrayindexoutofboundsexception"},
+  {q:"indicates that the element being requested does not exist.",a:"nosuchelementsexception"},
+  {q:"occurs when the user does not provide the proper type of input or input is out of range.",a:"inputmismatchexception"},
+  {q:"indicates that the Java Virtual Machine is broken or has run out of resources necessary for it to continue operating.",a:"virtualmachineerror"},
+  {q:"thrown when there is insufficient space to allocate an object.",a:"outofmemoryerror"},
+  {q:"indicates unexpected internal error has occurred in the Java Virtual Machine.",a:"internalerror"},
+  {q:"This is placed when a programmer creates a segment of code in which something might go wrong. It is the block of code a programmer might attempt to execute while acknowledging that an exception might occur.",a:"try block"},
+  {q:"To handle a thrown exception, one or more catch blocks can be added following a try block. A catch block is a segment of code that handles an exception that might be thrown by the try block that precedes it.",a:"catch block"},
+  {q:"It sends an Exception object out of a block or method so it can be handled elsewhere. A thrown Exception can be caught by a catch block.",a:"throw statement"},
+  {q:"When actions must be performed at the end of a try… catch sequence, a finally block is used. The code written in the finally block executes whether or not the preceding try block identifies an Exception",a:"finally block"},
+  {q:"The list of error messages, which shows each method called as the program ran after each attempted execution",a:"stack trace"},
+  {q:"is a collection of data stored on a nonvolatile device or a permanent storage device such as a hard disk, universal serial bus (USB) drive, compact disk, and reel or cassette of magnetic tape.",a:"computer file"},
+  {q:"contain data that can be read in a text editor as the data is encoded using a scheme (ASCII or Unicode). These can be data files that contain facts and figures, including a payroll file with employee numbers, names, and salaries.",a:"Text files"},
+  {q:"contain data items that have not been encoded as text. A binary file's contents are in binary format (0s and 1s), which is not easily understood by viewing them in a text editor.",a:"Binary files"},
+  {q:"or main directory of the storage device can be used to store a permanent file. For better organization, most computer users organize their files by placing each into a folder or directory.",a:"root directory"},
+  {q:"A complete list of the disk drive and the hierarchy of directories in which a file resides",a:"path."},
+  {q:"It separates the path components. A slash (/) is used as the delimiter in the Solaris (UNIX) operating system.",a:"path identifier"},
+  {q:"is a complete path that does not need any information to locate a file on a system. For example, C:\\Java\\Chapter.11\\SampleFile.txt is an absolute path.",a:"absolute path"},
+  {q:"depends on other path information. For example, a simple path such as SampleFile.txt is relative. When working with a path containing only a filename, the file is assumed to be in the same folder as the program using it.",a:"relative path"},
+  {q:"Returns the String representation of the path, eliminating double backslashes.",a:"String toString"},
+  {q:"Returns the file or directory denoted by this Path; the last item in the sequence of name elements.",a:"path getfilename"},
+  {q:"Returns the number of name elements in the Path",a:"int getnamecount"},
+  {q:"Returns the name in the position of the Path specified by the integer parameter",a:"path getname"},
+  {q:"checks that the file exists. As an alternative to using checkAccess() with no argument to determine whether a file exists, the Files.exists() method can be used as a substitute and pass it a Path argument.",a:"no argument"},
+  {q:"checks that the file exists and the program has permission to read the file",a:"read"},
+  {q:"checks that the file exists and the program has permission to write to the file",a:"write"},
+  {q:"checks that the file exists and the program has permission to execute the file",a:"execute"},
+  {q:"An abstract class that contains methods for performing input",a:"inputstream"},
+  {q:"Child of InputStream that provides the capability to read from disk files",a:"fileinputstream"},
+  {q:"Child of FilterInputStream that handles input from a system's standard (or default) input device, usually the keyboard",a:"bufferedinputstream"},
+  {q:"An abstract class that contains methods for performing output",a:"outputstream"},
+  {q:"Child of OutputStream that allows writing to disk files",a:"fileoutputstream"},
+  {q:"Child of FilterOutputStream that handles output from a system's standard (or default) output device, usually the monitor",a:"bufferedoutputstream"},
+  {q:"Child of FilterOutputStream. Java's System class contains a PrintStream object named System.out",a:"printstream"},
+  {q:"Abstract class for reading character streams; the only methods that a subclass must implement are read(char[], int, int) and close()",a:"reader"},
+  {q:"Reads text from a character-input stream, buffering characters to provide for efficient reading of characters, arrays, and lines",a:"bufferedreader"},
+  {q:"Writes text to a character-output stream, buffering characters to provide for the efficient writing of characters, arrays, and lines",a:"bufferedwriter"},
+  {q:"Closes the output stream and releases any system resources associated with the stream",a:"void close"},
+  {q:"Flushes the output stream; if any bytes are buffered, they will be written",a:"void flush"},
+  {q:"Writes all the bytes to the output stream from the specified byte array",a:"void write"},
+];
+
+// Merge: use localStorage extras on top of default cards
+const savedExtra = JSON.parse(localStorage.getItem('flashcards_extra') || '[]');
+let cards = [...DEFAULT_CARDS, ...savedExtra];
 let reviewDeck = [];
 let reviewIdx = 0;
 let got = 0;
 
 function save() {
-  localStorage.setItem('flashcards', JSON.stringify(cards));
+  const extra = cards.slice(DEFAULT_CARDS.length);
+  localStorage.setItem('flashcards_extra', JSON.stringify(extra));
   updatePill();
 }
 
@@ -1231,6 +698,5 @@ document.addEventListener('keydown', e => {
 
 updatePill();
 </script>
-
-
-</body></html>
+</body>
+</html>
