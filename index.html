@@ -257,11 +257,83 @@
   }
   .btn-submit:hover { opacity: .9; }
 
+  /* ── ANIMATIONS ── */
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    15%      { transform: translateX(-8px); }
+    30%      { transform: translateX(8px); }
+    45%      { transform: translateX(-6px); }
+    60%      { transform: translateX(6px); }
+    75%      { transform: translateX(-3px); }
+    90%      { transform: translateX(3px); }
+  }
+  @keyframes popIn {
+    0%   { transform: scale(0.5); opacity: 0; }
+    60%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+  }
+  @keyframes slideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+  @keyframes flashOverlay {
+    0%   { opacity: .55; }
+    100% { opacity: 0; pointer-events: none; }
+  }
+  @keyframes borderPulse {
+    0%,100% { box-shadow: 0 0 0 0px transparent; }
+    40%     { box-shadow: 0 0 0 5px var(--pulse-color); }
+  }
+
+  /* full-screen color flash */
+  #resultFlash {
+    position: fixed; inset: 0; z-index: 999;
+    pointer-events: none; opacity: 0;
+    border-radius: 0;
+  }
+  #resultFlash.flash-correct {
+    background: rgba(62,207,142,.18);
+    animation: flashOverlay .55s ease-out forwards;
+  }
+  #resultFlash.flash-wrong {
+    background: rgba(242,87,87,.18);
+    animation: flashOverlay .55s ease-out forwards;
+  }
+
+  /* big emoji stamp */
+  #resultEmoji {
+    position: fixed; top: 50%; left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    font-size: 5rem; z-index: 1000;
+    pointer-events: none; opacity: 0;
+    filter: drop-shadow(0 4px 24px rgba(0,0,0,.4));
+  }
+  #resultEmoji.show {
+    animation: popIn .4s cubic-bezier(.34,1.56,.64,1) forwards;
+  }
+  #resultEmoji.hide {
+    transition: opacity .2s;
+    opacity: 0;
+  }
+
+  /* textarea feedback states */
+  .answer-input-wrap textarea.input-correct {
+    border-color: var(--green) !important;
+    --pulse-color: rgba(62,207,142,.35);
+    animation: borderPulse .5s ease;
+  }
+  .answer-input-wrap textarea.input-wrong {
+    border-color: var(--red) !important;
+    --pulse-color: rgba(242,87,87,.35);
+    animation: shake .45s ease, borderPulse .5s ease;
+  }
+
   /* result reveal */
   .result-box {
     max-width: 640px; margin: 0 auto 18px;
     border-radius: 14px; padding: 20px 24px;
-    display: none; animation: fadeIn .2s ease;
+    display: none;
+    animation: slideUp .3s ease;
   }
   .result-box.correct {
     background: rgba(62,207,142,.08);
@@ -273,8 +345,10 @@
   }
   .result-tag {
     font-family: 'DM Mono', monospace;
-    font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    font-size: .85rem; letter-spacing: .06em;
+    font-weight: 600;
     margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
   }
   .result-box.correct .result-tag { color: var(--green); }
   .result-box.wrong   .result-tag { color: var(--red); }
@@ -328,6 +402,10 @@
 </style>
 </head>
 <body>
+
+<!-- visual feedback overlays -->
+<div id="resultFlash"></div>
+<div id="resultEmoji"></div>
 
 <header>
   <div class="logo">Flash<span>.</span>Rev</div>
@@ -607,7 +685,7 @@ function showCard() {
   document.getElementById('submitBtn').style.opacity = '1';
   document.getElementById('resultBox').style.display = 'none';
   document.getElementById('nextRow').style.display = 'none';
-  document.getElementById('overrideBtn').style.display = '';
+  document.getElementById('userAnswer').classList.remove('input-correct','input-wrong');
   updateProgress();
   setTimeout(() => document.getElementById('userAnswer').focus(), 50);
 }
@@ -622,14 +700,52 @@ function updateProgress() {
 let lastCorrect = false;
 
 function normalize(s) {
-  return s.trim().toLowerCase().replace(/\s+/g,' ');
+  return s
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, '') // remove punctuation & special chars
+    .replace(/\s+/g, ' ')         // collapse extra spaces
+    .trim();
+}
+
+function isMatch(userAns, correctAns) {
+  const u = normalize(userAns);
+  const c = normalize(correctAns);
+  if (u === c) return true;
+  // partial match: user's answer is contained in correct, or correct is contained in user's
+  if (c.includes(u) || u.includes(c)) return true;
+  return false;
+}
+
+function triggerVisuals(correct) {
+  // 1. full-screen flash
+  const flash = document.getElementById('resultFlash');
+  flash.className = '';
+  void flash.offsetWidth; // reflow to restart
+  flash.className = correct ? 'flash-correct' : 'flash-wrong';
+
+  // 2. big emoji
+  const emoji = document.getElementById('resultEmoji');
+  emoji.className = '';
+  emoji.textContent = correct
+    ? ['✅','🎉','⭐','🔥','💯'][Math.floor(Math.random()*5)]
+    : ['❌','💀','😬','🫠','💔'][Math.floor(Math.random()*5)];
+  void emoji.offsetWidth;
+  emoji.className = 'show';
+  setTimeout(() => { emoji.classList.remove('show'); emoji.classList.add('hide'); }, 700);
+
+  // 3. textarea border flash
+  const ta = document.getElementById('userAnswer');
+  ta.classList.remove('input-correct','input-wrong');
+  void ta.offsetWidth;
+  ta.classList.add(correct ? 'input-correct' : 'input-wrong');
 }
 
 function submitAnswer() {
   const userAns = document.getElementById('userAnswer').value.trim();
   if (!userAns) { document.getElementById('userAnswer').focus(); return; }
   const c = reviewDeck[reviewIdx];
-  const correct = normalize(userAns) === normalize(c.a);
+  const correct = isMatch(userAns, c.a);
   lastCorrect = correct;
   if (correct) got++;
 
@@ -638,15 +754,18 @@ function submitAnswer() {
   document.getElementById('submitBtn').disabled = true;
   document.getElementById('submitBtn').style.opacity = '.4';
 
-  // show result
+  // trigger visuals
+  triggerVisuals(correct);
+
+  // show result box
   const box = document.getElementById('resultBox');
   box.className = 'result-box ' + (correct ? 'correct' : 'wrong');
   box.style.display = '';
   document.getElementById('resultTag').textContent = correct ? '✓ Correct!' : '✗ Incorrect';
-  document.getElementById('resultCorrect').textContent = 'Answer: ' + c.a;
+  document.getElementById('resultCorrect').textContent = 'Correct answer: ' + c.a;
   document.getElementById('resultYours').textContent = correct ? '' : 'Your answer: ' + userAns;
 
-  // show next row; hide override if already correct
+  // show next row
   const nextRow = document.getElementById('nextRow');
   nextRow.style.display = 'flex';
   document.getElementById('overrideBtn').style.display = correct ? 'none' : '';
@@ -654,6 +773,7 @@ function submitAnswer() {
 
 function overrideCorrect() {
   if (!lastCorrect) { got++; lastCorrect = true; }
+  triggerVisuals(true);
   const box = document.getElementById('resultBox');
   box.className = 'result-box correct';
   document.getElementById('resultTag').textContent = '✓ Marked as correct';
