@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<!-- saved from url=(0046)file:///C:/Users/markv/Downloads/reviewer.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reviewer</title>
+<link href="./Reviewer3_files/css2" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e10;
+    --surface: #18181c;
+    --card: #1f1f25;
+    --border: #2e2e38;
+    --accent: #f0e040;
+    --accent2: #e05a2b;
+    --text: #e8e8ea;
+    --muted: #6b6b78;
+    --green: #3ecf8e;
+    --red: #f25757;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(14,14,16,.85);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: .08em;
+    color: var(--accent);
+  }
+  .logo span { color: var(--accent2); }
+  .header-right { display: flex; gap: 12px; align-items: center; }
+  .pill {
+    font-family: 'DM Mono', monospace;
+    font-size: .72rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: .06em;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 2px;
+    padding: 20px 32px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    padding: 10px 22px;
+    border-radius: 8px 8px 0 0;
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    cursor: pointer;
+    transition: color .2s, background .2s;
+    position: relative;
+    top: 1px;
+  }
+  .tab.active {
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-bottom-color: var(--surface);
+  }
+  .tab:hover:not(.active) { color: var(--text); }
+
+  /* ── MAIN CONTENT ── */
+  main { flex: 1; padding: 32px; max-width: 900px; width: 100%; margin: 0 auto; }
+
+  .panel { display: none; }
+  .panel.active { display: block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  /* ── ADD CARD PANEL ── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    letter-spacing: .12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .form-group { margin-bottom: 20px; }
+  label { display: block; font-size: .85rem; color: var(--muted); margin-bottom: 8px; }
+  textarea, input[type="text"] {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: .95rem;
+    padding: 14px 16px;
+    resize: vertical;
+    transition: border-color .2s, box-shadow .2s;
+    outline: none;
+  }
+  textarea:focus, input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(240,224,64,.08);
+  }
+  textarea { min-height: 90px; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 28px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform .15s, opacity .15s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: var(--accent); color: #0e0e10; }
+  .btn-primary:hover { opacity: .9; }
+  .btn-danger { background: transparent; border: 1px solid var(--red); color: var(--red); padding: 7px 16px; font-size: .8rem; border-radius: 7px; }
+  .btn-danger:hover { background: rgba(242,87,87,.08); }
+  .btn-ghost { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); }
+
+  /* ── CARD LIST ── */
+  .cards-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 18px;
+  }
+  .count-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: .75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    border-radius: 999px;
+    color: var(--muted);
+  }
+  .card-list { display: flex; flex-direction: column; gap: 10px; }
+  .card-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    transition: border-color .2s;
+  }
+  .card-item:hover { border-color: #3a3a4a; }
+  .card-item-body { flex: 1; min-width: 0; }
+  .card-q {
+    font-size: .92rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+    word-break: break-word;
+  }
+  .card-a {
+    font-size: .82rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: .7rem;
+    color: var(--muted);
+    min-width: 24px;
+    text-align: right;
+    padding-top: 2px;
+  }
+  .empty-state {
+    text-align: center; padding: 60px 20px;
+    color: var(--muted); font-size: .9rem; line-height: 1.8;
+  }
+  .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+  /* ── REVIEW PANEL ── */
+  .review-controls {
+    display: flex; gap: 10px; align-items: center; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .progress-bar-wrap {
+    flex: 1; min-width: 160px;
+    height: 6px; background: var(--border); border-radius: 99px; overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%; background: var(--accent); border-radius: 99px;
+    transition: width .4s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-text {
+    font-family: 'DM Mono', monospace; font-size: .75rem; color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* question card */
+  .q-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 36px;
+    margin: 0 auto 22px;
+    max-width: 640px;
+    text-align: center;
+    animation: fadeIn .25s ease;
+  }
+  .q-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: .65rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+  }
+  .q-card-text {
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    font-weight: 500; line-height: 1.5; color: var(--text);
+  }
+
+  /* answer input area */
+  .answer-area {
+    max-width: 640px; margin: 0 auto 18px;
+  }
+  .answer-input-wrap {
+    display: flex; gap: 10px; align-items: flex-end;
+  }
+  .answer-input-wrap textarea {
+    flex: 1; min-height: 60px; resize: none;
+    border-radius: 12px;
+    font-size: .95rem;
+  }
+  .btn-submit {
+    background: var(--accent); color: #0e0e10;
+    padding: 14px 22px; border-radius: 12px;
+    font-size: .9rem; font-weight: 600;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .btn-submit:hover { opacity: .9; }
+
+  /* result reveal */
+  .result-box {
+    max-width: 640px; margin: 0 auto 18px;
+    border-radius: 14px; padding: 20px 24px;
+    display: none; animation: fadeIn .2s ease;
+  }
+  .result-box.correct {
+    background: rgba(62,207,142,.08);
+    border: 1px solid rgba(62,207,142,.3);
+  }
+  .result-box.wrong {
+    background: rgba(242,87,87,.07);
+    border: 1px solid rgba(242,87,87,.25);
+  }
+  .result-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: .68rem; letter-spacing: .12em; text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .result-box.correct .result-tag { color: var(--green); }
+  .result-box.wrong   .result-tag { color: var(--red); }
+  .result-correct-ans {
+    font-size: .9rem; color: var(--text); line-height: 1.5;
+  }
+  .result-your-ans {
+    font-size: .82rem; color: var(--muted);
+    margin-top: 6px; font-style: italic;
+  }
+
+  .review-next-row {
+    max-width: 640px; margin: 0 auto;
+    display: none; justify-content: flex-end; gap: 10px;
+  }
+
+  .review-done {
+    text-align: center; padding: 50px 20px;
+    animation: fadeIn .3s ease;
+  }
+  .review-done h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem; letter-spacing: .06em;
+    color: var(--accent); margin-bottom: 10px;
+  }
+  .review-done p { color: var(--muted); font-size: .95rem; margin-bottom: 24px; }
+  .score { font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
+  .score strong { color: var(--green); }
+
+  /* shuffle toggle */
+  .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+  .toggle-wrap label { font-size: .82rem; color: var(--muted); cursor: pointer; }
+  .toggle {
+    appearance: none; width: 34px; height: 18px;
+    background: var(--border); border-radius: 99px;
+    cursor: pointer; position: relative; transition: background .2s;
+  }
+  .toggle::before {
+    content: ''; position: absolute;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: #fff; top: 3px; left: 3px;
+    transition: transform .2s;
+  }
+  .toggle:checked { background: var(--accent); }
+  .toggle:checked::before { transform: translateX(16px); }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Flash<span>.</span>Rev</div>
+  <div class="header-right">
+    <span class="pill" id="totalPill">61 cards</span>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab(&#39;add&#39;)">＋ Add Cards</button>
+  <button class="tab" onclick="switchTab(&#39;list&#39;)">My Cards</button>
+  <button class="tab" onclick="switchTab(&#39;review&#39;)">Review</button>
+</div>
+
+<main>
+
+  <!-- ADD PANEL -->
+  <div class="panel active" id="panel-add">
+    <div class="section-label">New Flashcard</div>
+    <div class="form-group">
+      <label>Question / Description</label>
+      <textarea id="inputQ" placeholder="e.g. What is the powerhouse of the cell?"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Answer</label>
+      <textarea id="inputA" placeholder="e.g. The mitochondria"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="addCard()">Add Card</button>
+    <span id="addFeedback" style="margin-left: 14px; font-size: 0.82rem; color: var(--green); opacity: 0; transition: opacity 0.3s;">Saved!</span>
+  </div>
+
+  <!-- LIST PANEL -->
+  <div class="panel" id="panel-list">
+    <div class="cards-header">
+      <div class="section-label" style="margin:0;">All Cards</div>
+      <span class="count-badge" id="listCount">61</span>
+    </div>
+    <div class="card-list" id="cardList">
+    <div class="card-item">
+      <span class="card-num">1</span>
+      <div class="card-item-body">
+        <div class="card-q">is the process of identifying and rectifying errors in a program that leads to unexpected behavior.
+It is a critical component in programming that represents the most time-intensive and challenging phase of
+coding.</div>
+        <div class="card-a">Debugging</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(0)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">2</span>
+      <div class="card-item-body">
+        <div class="card-q">It is vital to fully understand the problem being solved before making
+changes to the code. Without it, time will just be wasted, and solutions can be ineffective. It is
+advisable to reproduce the issue and gather as much information as possible.</div>
+        <div class="card-a">Understanding the Problem</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(1)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">3</span>
+      <div class="card-item-body">
+        <div class="card-q">his is also called backward debugging where it starts from the point the problem first
+began and works backward through the code to find out how and why it happened. This technique is
+useful when dealing with complex issues that are difficult to trace forward.</div>
+        <div class="card-a">Backtracking</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(2)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">4</span>
+      <div class="card-item-body">
+        <div class="card-q">Tools for debugging can help give valuable insights into how the code functions,
+including variables and memory usage, that help save time. Examples include Chrome DevTools,
+Testsigma, and dbForger.</div>
+        <div class="card-a">Debugging Tools</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(3)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">5</span>
+      <div class="card-item-body">
+        <div class="card-q">Setting breakpoints in the code where the issue might be hiding is a good
+practice. A breakpoint is the point in the code to temporarily stop the execution of the program to
+inspect the state of its functionality.</div>
+        <div class="card-a">Breakpoints and Stepping</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(4)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">6</span>
+      <div class="card-item-body">
+        <div class="card-q">It is advisable to narrow the scope of the issues into manageable portions when faced
+with a complex problem. where the code is divided into
+halves and systematically narrowing the bug location. Commenting out code, using print statements,
+or isolating components can help isolate the problem area quickly.</div>
+        <div class="card-a">Binary Search</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(5)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">7</span>
+      <div class="card-item-body">
+        <div class="card-q">This is an analogy for explaining an object like a rubber duck to someone else to
+identify the issue. Articulating the problem out loud or written down forces critical thinking that can
+lead to discoveries of new insights and solutions.</div>
+        <div class="card-a">Rubber Ducking</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(6)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">8</span>
+      <div class="card-item-body">
+        <div class="card-q">It is statements in strategic areas of the code is a good idea to provide
+valuable information for debugging. Understanding the code’s execution flow and the values of
+variables at different stages allows the debugger to identify the issue.</div>
+        <div class="card-a">Log Analysis</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(7)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">9</span>
+      <div class="card-item-body">
+        <div class="card-q">Group error reports into classes of related bugs as they often share common causes
+or patterns. Fixing a bug from a class is likely to resolve other bugs or give insights into how to fix
+them.</div>
+        <div class="card-a">Clustering Bugs</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(8)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">10</span>
+      <div class="card-item-body">
+        <div class="card-q">Debugging can be mentally taxing after hours of trying to resolve them. It is advisable
+to take breaks and step away from the code to clear the mind and allow the thoughts and ideas to
+summer, leading to breakthroughs based on a fresh perspective.</div>
+        <div class="card-a">Take Breaks</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(9)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">11</span>
+      <div class="card-item-body">
+        <div class="card-q">Documenting the process and the solutions you used is an important technique, as it
+can be a valuable resource for future debugging challenges.</div>
+        <div class="card-a">Take Notes</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(10)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">12</span>
+      <div class="card-item-body">
+        <div class="card-q">It is an unexpected or error condition encountered in programming.</div>
+        <div class="card-a">exception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(11)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">13</span>
+      <div class="card-item-body">
+        <div class="card-q">refers to the object-oriented techniques that manage or resolve such errors.</div>
+        <div class="card-a">Exception handling</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(12)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">14</span>
+      <div class="card-item-body">
+        <div class="card-q">If an
+unplanned exception occurs during a program’s execution, it is called</div>
+        <div class="card-a">runtime error</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(13)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">15</span>
+      <div class="card-item-body">
+        <div class="card-q">otherwise, if
+discovered during program compilation, it is called</div>
+        <div class="card-a">syntax error</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(14)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">16</span>
+      <div class="card-item-body">
+        <div class="card-q">represents more serious errors that a program usually might not recover from. For
+instance, an insufficient memory to execute a program.</div>
+        <div class="card-a">Error Class</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(15)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">17</span>
+      <div class="card-item-body">
+        <div class="card-q">represents less serious errors that indicate unusual conditions that arise while a
+program is running and from which the program can recover</div>
+        <div class="card-a">Exception Class</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(16)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">18</span>
+      <div class="card-item-body">
+        <div class="card-q">the base class for exceptions thrown while accessing data from files, directories, and
+streams.</div>
+        <div class="card-a">ioexception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(17)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">19</span>
+      <div class="card-item-body">
+        <div class="card-q">only detected during the execution of the application</div>
+        <div class="card-a">runtime exception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(18)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">20</span>
+      <div class="card-item-body">
+        <div class="card-q">raised whenever a wrong mathematical operation appears in the code
+during runtime.</div>
+        <div class="card-a">arithmethic exception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(19)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">21</span>
+      <div class="card-item-body">
+        <div class="card-q">thrown when an index used in arrays, lists, or strings is invalid</div>
+        <div class="card-a">indexoutofboundsexception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(20)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">22</span>
+      <div class="card-item-body">
+        <div class="card-q">indicates that an array has been accessed with an illegal
+index, either negative or greater than or equal to the size of the array.</div>
+        <div class="card-a">arrayindexoutofboundsexception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(21)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">23</span>
+      <div class="card-item-body">
+        <div class="card-q">indicates that the element being requested does not exist.</div>
+        <div class="card-a">nosuchelementsexception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(22)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">24</span>
+      <div class="card-item-body">
+        <div class="card-q">occurs when the user does not provide the proper type of input or
+input is out of range.</div>
+        <div class="card-a">inputmismatchexception</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(23)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">25</span>
+      <div class="card-item-body">
+        <div class="card-q">indicates that the Java Virtual Machine is broken or has run out of
+resources necessary for it to continue operating.</div>
+        <div class="card-a">virtualmachineerror</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(24)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">26</span>
+      <div class="card-item-body">
+        <div class="card-q">thrown when there is insufficient space to allocate an object.</div>
+        <div class="card-a">outofmemoryerror</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(25)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">27</span>
+      <div class="card-item-body">
+        <div class="card-q">indicates unexpected internal error has occurred in the Java Virtual Machine.</div>
+        <div class="card-a">internalerror</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(26)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">28</span>
+      <div class="card-item-body">
+        <div class="card-q">This is placed when a programmer creates a segment of code in which something might go wrong. It is the
+block of code a programmer might attempt to execute while acknowledging that an exception might occur.</div>
+        <div class="card-a">try block</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(27)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">29</span>
+      <div class="card-item-body">
+        <div class="card-q">To handle a thrown exception, one or more catch blocks can be added following a try block. A catch block
+is a segment of code that handles an exception that might be thrown by the try block that precedes it.</div>
+        <div class="card-a">catch block</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(28)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">30</span>
+      <div class="card-item-body">
+        <div class="card-q">It sends an Exception object out of a block or method so it can be handled elsewhere. A
+thrown Exception can be caught by a catch block.</div>
+        <div class="card-a">throw statement</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(29)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">31</span>
+      <div class="card-item-body">
+        <div class="card-q">When actions must be performed at the end of a try… catch sequence, a finally block is used. The code
+written in the finally block executes whether or not the preceding try block identifies an Exception</div>
+        <div class="card-a">finally block</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(30)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">32</span>
+      <div class="card-item-body">
+        <div class="card-q">The list of error messages, which shows each method called as the program ran after each attempted
+execution</div>
+        <div class="card-a">stack trace</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(31)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">33</span>
+      <div class="card-item-body">
+        <div class="card-q">is a collection of data stored on a nonvolatile device or a permanent storage device such as a
+hard disk, universal serial bus (USB) drive, compact disk, and reel or cassette of magnetic tape.</div>
+        <div class="card-a">computer file</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(32)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">34</span>
+      <div class="card-item-body">
+        <div class="card-q">contain data that can be read in a text editor as the data is encoded using a scheme (ASCII
+or Unicode). These can be data files that contain facts and figures, including a payroll file with
+employee numbers, names, and salaries.</div>
+        <div class="card-a">Text files</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(33)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">35</span>
+      <div class="card-item-body">
+        <div class="card-q">contain data items that have not been encoded as text. A binary file’s contents are in
+binary format (0s and 1s), which is not easily understood by viewing them in a text editor.</div>
+        <div class="card-a">Binary files</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(34)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">36</span>
+      <div class="card-item-body">
+        <div class="card-q">or main directory of the storage device can be used to store a permanent file. For better
+organization, most computer users organize their files by placing each into a folder or directory.</div>
+        <div class="card-a">root directory</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(35)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">37</span>
+      <div class="card-item-body">
+        <div class="card-q">A complete list of the disk drive and the hierarchy of
+directories in which a file resides</div>
+        <div class="card-a">path.</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(36)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">38</span>
+      <div class="card-item-body">
+        <div class="card-q">It separates the path components. A slash (/) is used as the delimiter in the Solaris
+(UNIX) operating system.</div>
+        <div class="card-a">path identifier</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(37)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">39</span>
+      <div class="card-item-body">
+        <div class="card-q">is a complete path that does not need any information to locate a file on a system. For
+example, C:\\Java\\Chapter.11\\SampleFile.txt is an absolute path.</div>
+        <div class="card-a">absolute path</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(38)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">40</span>
+      <div class="card-item-body">
+        <div class="card-q">depends on other path information. For example, a simple path such as SampleFile.txt is
+relative. When working with a path containing only a filename, the file is assumed to be in the same folder as
+the program using it.</div>
+        <div class="card-a">relative path</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(39)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">41</span>
+      <div class="card-item-body">
+        <div class="card-q">Returns the String representation of the path, eliminating double backslashes.</div>
+        <div class="card-a">String toString</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(40)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">42</span>
+      <div class="card-item-body">
+        <div class="card-q">Returns the file or directory denoted by this Path; the last item in the sequence of
+name elements.</div>
+        <div class="card-a">path getfilename</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(41)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">43</span>
+      <div class="card-item-body">
+        <div class="card-q">Returns the number of name elements in the Path</div>
+        <div class="card-a">int getnamecount</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(42)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">44</span>
+      <div class="card-item-body">
+        <div class="card-q">Returns the name in the position of the Path specified by the integer parameter</div>
+        <div class="card-a">path getname</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(43)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">45</span>
+      <div class="card-item-body">
+        <div class="card-q">checks that the file exists. As an alternative to using checkAccess() with no
+argument to determine whether a file exists, the Files.exists() method can be used as a
+substitute and pass it a Path argument.</div>
+        <div class="card-a">no argument</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(44)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">46</span>
+      <div class="card-item-body">
+        <div class="card-q">checks that the file exists and the program has permission to read the file</div>
+        <div class="card-a">read</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(45)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">47</span>
+      <div class="card-item-body">
+        <div class="card-q">checks that the file exists and the program has permission to write to the file</div>
+        <div class="card-a">write</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(46)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">48</span>
+      <div class="card-item-body">
+        <div class="card-q">checks that the file exists and the program has permission to execute the file</div>
+        <div class="card-a">execute</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(47)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">49</span>
+      <div class="card-item-body">
+        <div class="card-q">An abstract class that contains methods for performing input</div>
+        <div class="card-a">inputstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(48)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">50</span>
+      <div class="card-item-body">
+        <div class="card-q">Child of InputStream that provides the capability to read from disk files</div>
+        <div class="card-a">fileinputstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(49)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">51</span>
+      <div class="card-item-body">
+        <div class="card-q">Child of FilterInputStream that handles input from a system’s standard (or
+default) input device, usually the keyboard</div>
+        <div class="card-a">bufferedinputstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(50)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">52</span>
+      <div class="card-item-body">
+        <div class="card-q">An abstract class that contains methods for performing output</div>
+        <div class="card-a">outputstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(51)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">53</span>
+      <div class="card-item-body">
+        <div class="card-q">Child of OutputStream that allows writing to disk files</div>
+        <div class="card-a">fileoutputstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(52)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">54</span>
+      <div class="card-item-body">
+        <div class="card-q">Child of FilterOutputStream that handles output from a system’s standard
+(or default) output device, usually the monitor</div>
+        <div class="card-a">bufferedoutputstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(53)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">55</span>
+      <div class="card-item-body">
+        <div class="card-q">Child of FilterOutputStream. Java’s System class contains a PrintStream
+object named System.out</div>
+        <div class="card-a">printstream</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(54)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">56</span>
+      <div class="card-item-body">
+        <div class="card-q">Abstract class for reading character streams; the only methods that a subclass
+must implement are read(char[], int, int) and close()</div>
+        <div class="card-a">reader</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(55)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">57</span>
+      <div class="card-item-body">
+        <div class="card-q">Reads text from a character-input stream, buffering characters to provide for
+efficient reading of characters, arrays, and lines</div>
+        <div class="card-a">bufferedreader</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(56)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">58</span>
+      <div class="card-item-body">
+        <div class="card-q">Writes text to a character-output stream, buffering characters to provide for
+the efficient writing of characters, arrays, and lines</div>
+        <div class="card-a">bufferedwriter</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(57)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">59</span>
+      <div class="card-item-body">
+        <div class="card-q">Closes the output stream and releases any system resources associated with
+the stream</div>
+        <div class="card-a">void close</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(58)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">60</span>
+      <div class="card-item-body">
+        <div class="card-q">Flushes the output stream; if any bytes are buffered, they will be written</div>
+        <div class="card-a">void flush</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(59)">Delete</button>
+    </div>
+  
+    <div class="card-item">
+      <span class="card-num">61</span>
+      <div class="card-item-body">
+        <div class="card-q">Writes all the bytes to the output stream from the specified byte array</div>
+        <div class="card-a">void write</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(60)">Delete</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- REVIEW PANEL -->
+  <div class="panel" id="panel-review">
+    <div id="reviewStart">
+      <div class="section-label">Review Session</div>
+      <p style="color:var(--muted);font-size:.9rem;margin-bottom:20px;">Type your answer and hit Submit. You'll see the correct answer and whether you got it right.</p>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:24px;">
+        <div class="toggle-wrap">
+          <input type="checkbox" class="toggle" id="shuffleToggle" checked="">
+          <label for="shuffleToggle">Shuffle cards</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startReview()">Start Review →</button>
+    </div>
+
+    <div id="reviewSession" style="display:none;">
+      <div class="review-controls">
+        <span class="progress-text" id="progressText">0 / 0</span>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+        <button class="btn btn-ghost" style="padding:7px 14px;font-size:.8rem;" onclick="endReview()">End</button>
+      </div>
+
+      <!-- Question -->
+      <div class="q-card">
+        <div class="q-card-label">Question</div>
+        <div class="q-card-text" id="cardQ">—</div>
+      </div>
+
+      <!-- Answer input -->
+      <div class="answer-area">
+        <div class="answer-input-wrap">
+          <textarea id="userAnswer" placeholder="Type your answer here…" rows="2"></textarea>
+          <button class="btn btn-submit" id="submitBtn" onclick="submitAnswer()">Submit</button>
+        </div>
+      </div>
+
+      <!-- Result reveal -->
+      <div class="result-box" id="resultBox">
+        <div class="result-tag" id="resultTag">Correct</div>
+        <div class="result-correct-ans" id="resultCorrect"></div>
+        <div class="result-your-ans" id="resultYours"></div>
+      </div>
+
+      <!-- Next row -->
+      <div class="review-next-row" id="nextRow">
+        <button class="btn btn-ghost" onclick="overrideCorrect()" id="overrideBtn" style="font-size:.82rem;padding:9px 18px;">Mark as correct</button>
+        <button class="btn btn-primary" onclick="nextCard()">Next →</button>
+      </div>
+    </div>
+
+    <div id="reviewDone" class="review-done" style="display:none;">
+      <h2>Round Done!</h2>
+      <p class="score">You got <strong id="scoreGot">0</strong> out of <span id="scoreTotal">0</span> correct.</p>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:24px;" id="reviewMsg"></p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="startReview()">Review Again</button>
+        <button class="btn btn-ghost" onclick="endReview()">Back</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+let cards = JSON.parse(localStorage.getItem('flashcards') || '[]');
+let reviewDeck = [];
+let reviewIdx = 0;
+let got = 0;
+
+function save() {
+  localStorage.setItem('flashcards', JSON.stringify(cards));
+  updatePill();
+}
+
+function updatePill() {
+  const n = cards.length;
+  document.getElementById('totalPill').textContent = n + (n === 1 ? ' card' : ' cards');
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', ['add','list','review'][i] === tab);
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'list') renderList();
+  if (tab === 'review') showReviewStart();
+}
+
+function addCard() {
+  const q = document.getElementById('inputQ').value.trim();
+  const a = document.getElementById('inputA').value.trim();
+  if (!q || !a) { alert('Please fill in both the question and answer.'); return; }
+  cards.push({ q, a });
+  save();
+  document.getElementById('inputQ').value = '';
+  document.getElementById('inputA').value = '';
+  document.getElementById('inputQ').focus();
+  const fb = document.getElementById('addFeedback');
+  fb.style.opacity = 1;
+  setTimeout(() => fb.style.opacity = 0, 1800);
+}
+
+function renderList() {
+  const el = document.getElementById('cardList');
+  document.getElementById('listCount').textContent = cards.length;
+  if (!cards.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">📭</div>No cards yet. Add some from the <b>Add Cards</b> tab.</div>';
+    return;
+  }
+  el.innerHTML = cards.map((c,i) => `
+    <div class="card-item">
+      <span class="card-num">${i+1}</span>
+      <div class="card-item-body">
+        <div class="card-q">${esc(c.q)}</div>
+        <div class="card-a">${esc(c.a)}</div>
+      </div>
+      <button class="btn btn-danger" onclick="deleteCard(${i})">Delete</button>
+    </div>
+  `).join('');
+}
+
+function deleteCard(i) {
+  if (!confirm('Delete this card?')) return;
+  cards.splice(i,1);
+  save();
+  renderList();
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── REVIEW ──
+function showReviewStart() {
+  document.getElementById('reviewStart').style.display = '';
+  document.getElementById('reviewSession').style.display = 'none';
+  document.getElementById('reviewDone').style.display = 'none';
+}
+
+function shuffle(arr) {
+  for (let i = arr.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr;
+}
+
+function startReview() {
+  if (!cards.length) { alert('Add some cards first!'); return; }
+  reviewDeck = [...cards];
+  if (document.getElementById('shuffleToggle').checked) shuffle(reviewDeck);
+  reviewIdx = 0; got = 0;
+  document.getElementById('reviewStart').style.display = 'none';
+  document.getElementById('reviewDone').style.display = 'none';
+  document.getElementById('reviewSession').style.display = '';
+  showCard();
+}
+
+function showCard() {
+  const c = reviewDeck[reviewIdx];
+  document.getElementById('cardQ').textContent = c.q;
+  document.getElementById('userAnswer').value = '';
+  document.getElementById('userAnswer').disabled = false;
+  document.getElementById('submitBtn').disabled = false;
+  document.getElementById('submitBtn').style.opacity = '1';
+  document.getElementById('resultBox').style.display = 'none';
+  document.getElementById('nextRow').style.display = 'none';
+  document.getElementById('overrideBtn').style.display = '';
+  updateProgress();
+  setTimeout(() => document.getElementById('userAnswer').focus(), 50);
+}
+
+function updateProgress() {
+  const total = reviewDeck.length;
+  const pct = (reviewIdx / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${reviewIdx} / ${total}`;
+}
+
+let lastCorrect = false;
+
+function normalize(s) {
+  return s.trim().toLowerCase().replace(/\s+/g,' ');
+}
+
+function submitAnswer() {
+  const userAns = document.getElementById('userAnswer').value.trim();
+  if (!userAns) { document.getElementById('userAnswer').focus(); return; }
+  const c = reviewDeck[reviewIdx];
+  const correct = normalize(userAns) === normalize(c.a);
+  lastCorrect = correct;
+  if (correct) got++;
+
+  // disable input
+  document.getElementById('userAnswer').disabled = true;
+  document.getElementById('submitBtn').disabled = true;
+  document.getElementById('submitBtn').style.opacity = '.4';
+
+  // show result
+  const box = document.getElementById('resultBox');
+  box.className = 'result-box ' + (correct ? 'correct' : 'wrong');
+  box.style.display = '';
+  document.getElementById('resultTag').textContent = correct ? '✓ Correct!' : '✗ Incorrect';
+  document.getElementById('resultCorrect').textContent = 'Answer: ' + c.a;
+  document.getElementById('resultYours').textContent = correct ? '' : 'Your answer: ' + userAns;
+
+  // show next row; hide override if already correct
+  const nextRow = document.getElementById('nextRow');
+  nextRow.style.display = 'flex';
+  document.getElementById('overrideBtn').style.display = correct ? 'none' : '';
+}
+
+function overrideCorrect() {
+  if (!lastCorrect) { got++; lastCorrect = true; }
+  const box = document.getElementById('resultBox');
+  box.className = 'result-box correct';
+  document.getElementById('resultTag').textContent = '✓ Marked as correct';
+  document.getElementById('overrideBtn').style.display = 'none';
+}
+
+function nextCard() {
+  reviewIdx++;
+  if (reviewIdx >= reviewDeck.length) {
+    finishReview();
+  } else {
+    showCard();
+  }
+}
+
+function finishReview() {
+  document.getElementById('reviewSession').style.display = 'none';
+  document.getElementById('reviewDone').style.display = '';
+  document.getElementById('scoreGot').textContent = got;
+  document.getElementById('scoreTotal').textContent = reviewDeck.length;
+  const pct = Math.round(got/reviewDeck.length*100);
+  let msg = pct === 100 ? '🎉 Perfect score! You\'ve mastered all cards.' :
+            pct >= 70  ? '👍 Great job! Keep reviewing the ones you missed.' :
+                         '📚 Keep studying — you\'ll get there!';
+  document.getElementById('reviewMsg').textContent = msg;
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('progressText').textContent = `${reviewDeck.length} / ${reviewDeck.length}`;
+}
+
+function endReview() { showReviewStart(); }
+
+// Enter key submits, Shift+Enter = newline
+document.addEventListener('keydown', e => {
+  const reviewActive = document.getElementById('reviewSession').style.display !== 'none';
+  if (!reviewActive) return;
+  if (e.target.id === 'userAnswer' && e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const nextVisible = document.getElementById('nextRow').style.display === 'flex';
+    if (nextVisible) nextCard(); else submitAnswer();
+  }
+});
+
+updatePill();
+</script>
+
+
+</body></html>
